@@ -6,7 +6,7 @@
 - Adresa Václavské náměstí 782/22, 110 00 Praha 1 · Info@123sidla.cz
 
 ## Hotovo (pokračování)
-- [x] Napojit kontaktní formulář na e-mail — řešeno přes FormSubmit.co (bez nutnosti backendu/API klíče), poptávky chodí na Info@123sidla.cz. Při prvním skutečném odeslání z ostrého webu přijde na Info@123sidla.cz jednorázový potvrzovací e-mail od FormSubmit.co, který je nutné potvrdit, jinak se další zprávy nedoručí.
+- [x] Napojit kontaktní formulář na e-mail — FormSubmit.co se ukázal jako nespolehlivý (aktivační e-mail nedocházel vůbec). Přepnuto na odesílání přes SMTP vlastní schránky info@123sidla.cz (Webglobe). **Čeká na doplnění SMTP údajů** (`SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`) jako proměnných prostředí na hostingu — viz `NAVOD.md`.
 - [x] Favicon (ikona na liště prohlížeče) — nastaveno na „123" v barvě značky.
 
 ## Otevřené

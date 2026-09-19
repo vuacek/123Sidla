@@ -46,12 +46,26 @@ Výstup najdete ve složce `dist/`. Sestavení je připravené pro platformu Clo
 
 ## 6. Důležité poznámky k obsahu
 
-- **Kontaktní formulář posílá poptávky na Info@123sidla.cz** přes bezplatnou
-  službu FormSubmit.co (žádný účet ani API klíč není potřeba). Při prvním
-  skutečném odeslání z ostrého webu přijde na Info@123sidla.cz jednorázový
-  potvrzovací e-mail — je nutné ho potvrdit, jinak se další poptávky
-  nedoručí. Cílovou adresu lze změnit v `src/routes/index.tsx` (konstanta
-  `CONTACT_EMAIL`).
+- **Kontaktní formulář posílá poptávky na Info@123sidla.cz přes SMTP vaší
+  vlastní schránky** (žádná cizí služba typu FormSubmit — ty se ukázaly
+  jako nespolehlivé, mail se často vůbec nedoručí). Aby to fungovalo, je
+  potřeba na hostingu nastavit tyto proměnné prostředí (Environment
+  Variables):
+
+  | Proměnná | Význam | Příklad |
+  | --- | --- | --- |
+  | `SMTP_HOST` | adresa odchozího SMTP serveru vaší schránky | najdete ve WebAdminu Webglobe → Pošta → e-mailová schránka → „Nastavení pro poštovního klienta" |
+  | `SMTP_PORT` | port SMTP | obvykle `465` (SSL) nebo `587` (STARTTLS) |
+  | `SMTP_USER` | přihlašovací jméno schránky | `info@123sidla.cz` |
+  | `SMTP_PASS` | heslo ke schránce | — |
+  | `SMTP_FROM` | (nepovinné) adresa „Od" | výchozí je `SMTP_USER` |
+  | `CONTACT_EMAIL` | (nepovinné) kam poptávky chodí | výchozí je `info@123sidla.cz` |
+
+  Přesný `SMTP_HOST` a port najdete ve WebAdminu Webglobe u dané schránky
+  (sekce Pošta / E-mailové schránky), případně vám je na vyžádání sdělí
+  podpora Webglobe. Bez těchto proměnných formulář zobrazí chybovou
+  hlášku a poptávka se neodešle — kód sám o sobě žádné SMTP údaje
+  neobsahuje ani je nikam neposílá mimo tuto schránku.
 - **Návštěvy na adrese se nepřijímají** — web to výslovně uvádí na dvou místech.
   Tyto věty nemažte, jinak lidé začnou na Václavák chodit.
 - **Telefonní číslo zatím nezveřejňujeme** (nemáme ho) — komunikace vede na

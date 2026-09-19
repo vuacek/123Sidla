@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useState, type FormEvent } from "react";
 import vaclavakHero from "@/assets/vaclavak-hero.jpg";
+import { sendContactEmail } from "@/lib/contact-email.server";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -74,33 +75,40 @@ const services = [
 
 
 
-const CONTACT_EMAIL = "info@123sidla.cz";
-const SENT_PARAM = "poptavka";
-const SENT_VALUE = "odeslana";
-
 function Index() {
   const [sent, setSent] = useState(false);
   const [selected, setSelected] = useState<number | "nevím">(24);
-  const [nextUrl, setNextUrl] = useState("");
+  const [sending, setSending] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-  // FormSubmit.co posts the form as a normal (non-JS) submission and then
-  // redirects the browser back to `_next`. We detect that return trip here
-  // to show the "Děkujeme" state, and compute `_next` from the real origin
-  // once we're in the browser (it must be an absolute URL).
-  useEffect(() => {
-    const url = new URL(window.location.href);
-    if (url.searchParams.get(SENT_PARAM) === SENT_VALUE) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setErrorMsg(null);
+    setSending(true);
+
+    const formData = new FormData(e.currentTarget);
+
+    try {
+      await sendContactEmail({
+        data: {
+          jmeno: String(formData.get("jmeno") ?? ""),
+          spolecnost: String(formData.get("spolecnost") ?? ""),
+          email: String(formData.get("email") ?? ""),
+          delkaSmlouvy: String(formData.get("delka_smlouvy") ?? ""),
+          zprava: String(formData.get("zprava") ?? ""),
+        },
+      });
       setSent(true);
-      url.searchParams.delete(SENT_PARAM);
-      window.history.replaceState({}, "", url.toString());
+    } catch (err) {
+      setErrorMsg(
+        err instanceof Error
+          ? err.message
+          : "E-mail se nepodařilo odeslat, zkuste to prosím znovu.",
+      );
+    } finally {
+      setSending(false);
     }
-
-    const thankYouUrl = new URL(window.location.href);
-    thankYouUrl.search = "";
-    thankYouUrl.hash = "kontakt";
-    thankYouUrl.searchParams.set(SENT_PARAM, SENT_VALUE);
-    setNextUrl(thankYouUrl.toString());
-  }, []);
+  }
 
   const chosen = terms.find((t) => t.months === selected);
 
@@ -519,21 +527,7 @@ function Index() {
                 </p>
               </div>
             ) : (
-              <form
-                className="space-y-4"
-                action={`https://formsubmit.co/${CONTACT_EMAIL}`}
-                method="POST"
-              >
-                <input
-                  type="hidden"
-                  name="_subject"
-                  value="Nová poptávka z webu 123Sídla"
-                />
-                <input type="hidden" name="_captcha" value="false" />
-                <input type="hidden" name="_template" value="table" />
-                {nextUrl && (
-                  <input type="hidden" name="_next" value={nextUrl} />
-                )}
+              <form className="space-y-4" onSubmit={handleSubmit}>
                 <div className="grid gap-4 sm:grid-cols-2">
                   <label className="block text-sm">
                     <span className="mb-1.5 block text-muted-foreground">
@@ -614,10 +608,16 @@ function Index() {
                 </label>
                 <button
                   type="submit"
-                  className="w-full rounded-full bg-primary py-3 font-display text-sm font-semibold text-primary-foreground transition hover:brightness-110"
+                  disabled={sending}
+                  className="w-full rounded-full bg-primary py-3 font-display text-sm font-semibold text-primary-foreground transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60"
                 >
-                  Odeslat poptávku
+                  {sending ? "Odesílám…" : "Odeslat poptávku"}
                 </button>
+                {errorMsg && (
+                  <p className="text-center text-xs text-destructive">
+                    {errorMsg}
+                  </p>
+                )}
                 <p className="text-center text-xs text-muted-foreground">
                   Odesláním souhlasíte se zpracováním údajů. Žádný spam.
                 </p>
