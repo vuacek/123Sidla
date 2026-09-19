@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import vaclavakHero from "@/assets/vaclavak-hero.jpg";
 
 export const Route = createFileRoute("/")({
@@ -74,9 +74,40 @@ const services = [
 
 
 
+const CONTACT_EMAIL = "info@123sidla.cz";
+
 function Index() {
   const [sent, setSent] = useState(false);
   const [selected, setSelected] = useState<number | "nevím">(24);
+  const [sending, setSending] = useState(false);
+  const [sendError, setSendError] = useState(false);
+
+  async function handleContactSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setSendError(false);
+    setSending(true);
+
+    const formData = new FormData(e.currentTarget);
+
+    try {
+      const response = await fetch(
+        `https://formsubmit.co/ajax/${CONTACT_EMAIL}`,
+        {
+          method: "POST",
+          headers: { Accept: "application/json" },
+          body: formData,
+        },
+      );
+
+      if (!response.ok) throw new Error("Odeslání selhalo");
+
+      setSent(true);
+    } catch (err) {
+      setSendError(true);
+    } finally {
+      setSending(false);
+    }
+  }
 
   const chosen = terms.find((t) => t.months === selected);
 
@@ -495,13 +526,14 @@ function Index() {
                 </p>
               </div>
             ) : (
-              <form
-                className="space-y-4"
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  setSent(true);
-                }}
-              >
+              <form className="space-y-4" onSubmit={handleContactSubmit}>
+                <input
+                  type="hidden"
+                  name="_subject"
+                  value="Nová poptávka z webu 123Sídla"
+                />
+                <input type="hidden" name="_captcha" value="false" />
+                <input type="hidden" name="_template" value="table" />
                 <div className="grid gap-4 sm:grid-cols-2">
                   <label className="block text-sm">
                     <span className="mb-1.5 block text-muted-foreground">
@@ -510,6 +542,7 @@ function Index() {
                     <input
                       required
                       type="text"
+                      name="jmeno"
                       placeholder="Jan Novák"
                       className="w-full rounded-xl border border-input bg-white/5 px-4 py-2.5 text-sm outline-none transition focus:border-primary"
                     />
@@ -520,6 +553,7 @@ function Index() {
                     </span>
                     <input
                       type="text"
+                      name="spolecnost"
                       placeholder="Novák s.r.o."
                       className="w-full rounded-xl border border-input bg-white/5 px-4 py-2.5 text-sm outline-none transition focus:border-primary"
                     />
@@ -532,6 +566,7 @@ function Index() {
                   <input
                     required
                     type="email"
+                    name="email"
                     placeholder="jan@spolecnost.cz"
                     className="w-full rounded-xl border border-input bg-white/5 px-4 py-2.5 text-sm outline-none transition focus:border-primary"
                   />
@@ -541,6 +576,7 @@ function Index() {
                     Délka smlouvy
                   </span>
                   <select
+                    name="delka_smlouvy"
                     value={String(selected)}
                     onChange={(e) =>
                       setSelected(
@@ -571,16 +607,24 @@ function Index() {
                   </span>
                   <textarea
                     rows={3}
+                    name="zprava"
                     placeholder="Popište, co potřebujete…"
                     className="w-full resize-none rounded-xl border border-input bg-white/5 px-4 py-2.5 text-sm outline-none transition focus:border-primary"
                   />
                 </label>
                 <button
                   type="submit"
-                  className="w-full rounded-full bg-primary py-3 font-display text-sm font-semibold text-primary-foreground transition hover:brightness-110"
+                  disabled={sending}
+                  className="w-full rounded-full bg-primary py-3 font-display text-sm font-semibold text-primary-foreground transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60"
                 >
-                  Odeslat poptávku
+                  {sending ? "Odesílám…" : "Odeslat poptávku"}
                 </button>
+                {sendError && (
+                  <p className="text-center text-xs text-destructive">
+                    Odeslání se nezdařilo. Zkuste to prosím znovu, nebo nám
+                    napište přímo na {CONTACT_EMAIL}.
+                  </p>
+                )}
                 <p className="text-center text-xs text-muted-foreground">
                   Odesláním souhlasíte se zpracováním údajů. Žádný spam.
                 </p>

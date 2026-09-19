@@ -46,8 +46,12 @@ Výstup najdete ve složce `dist/`. Sestavení je připravené pro platformu Clo
 
 ## 6. Důležité poznámky k obsahu
 
-- **Kontaktní formulář zatím nikam zprávu neposílá** — po odeslání se jen zobrazí
-  poděkování. Napojení na e-mail je úkol v `roadmap.md`.
+- **Kontaktní formulář posílá poptávky na Info@123sidla.cz** přes bezplatnou
+  službu FormSubmit.co (žádný účet ani API klíč není potřeba). Při prvním
+  skutečném odeslání z ostrého webu přijde na Info@123sidla.cz jednorázový
+  potvrzovací e-mail — je nutné ho potvrdit, jinak se další poptávky
+  nedoručí. Cílovou adresu lze změnit v `src/routes/index.tsx` (konstanta
+  `CONTACT_EMAIL`).
 - **Návštěvy na adrese se nepřijímají** — web to výslovně uvádí na dvou místech.
   Tyto věty nemažte, jinak lidé začnou na Václavák chodit.
 - **Telefonní číslo zatím nezveřejňujeme** (nemáme ho) — komunikace vede na

@@ -5,8 +5,11 @@
 - Texty: návštěvy se nepřijímám, komunikace jen e-mailem, bez telefonu, bez slibů času
 - Adresa Václavské náměstí 782/22, 110 00 Praha 1 · Info@123sidla.cz
 
+## Hotovo (pokračování)
+- [x] Napojit kontaktní formulář na e-mail — řešeno přes FormSubmit.co (bez nutnosti backendu/API klíče), poptávky chodí na Info@123sidla.cz. Při prvním skutečném odeslání z ostrého webu přijde na Info@123sidla.cz jednorázový potvrzovací e-mail od FormSubmit.co, který je nutné potvrdit, jinak se další zprávy nedoručí.
+- [x] Favicon (ikona na liště prohlížeče) — nastaveno na „123" v barvě značky.
+
 ## Otevřené
-- [ ] Napojit kontaktní formulář na e-mail — čeká na ověření domény 123sidla.cz (uživatel v dialogu Nastavení e-mailu). Po ověření: šablony + odeslání poptávky na Info@123sidla.cz + potvrzení zájemci.
 - [ ] Obchodní podmínky + zásady ochrany osobních údajů + vzor smlouvy o virtuálním sídle — návrh připravit, schválit právně.
 - [ ] Ověřit oprávnění používat adresu Václavské náměstí 782/22 (souhlas vlastníka / nájemce).
 - [ ] Registrovat doménu 123sidla.cz — ověřeno 2026-09-19 (CZ.NIC RDAP + DNS): doména není registrovaná. Uživatel ji koupí u Webglobe (registrátor REG-WEBGLOBE, .cz 99 Kč 1. rok, 359 Kč dále — ceny bez DPH). Koupit jen doménu, bez hostingu/WebEditoru.
