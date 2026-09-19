@@ -606,6 +606,8 @@ function Index() {
                     Odesláním formuláře souhlasím se{" "}
                     <Link
                       to="/ochrana-osobnich-udaju"
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="font-semibold text-primary underline underline-offset-2 hover:brightness-110"
                     >
                       zásadami ochrany osobních údajů
@@ -613,6 +615,8 @@ function Index() {
                     a s{" "}
                     <Link
                       to="/obchodni-podminky"
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="font-semibold text-primary underline underline-offset-2 hover:brightness-110"
                     >
                       obchodními podmínkami
@@ -646,10 +650,20 @@ function Index() {
           </div>
 
           <div className="flex gap-6">
-            <Link to="/ochrana-osobnich-udaju" className="transition hover:text-white">
+            <Link
+              to="/ochrana-osobnich-udaju"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition hover:text-white"
+            >
               Ochrana údajů
             </Link>
-            <Link to="/obchodni-podminky" className="transition hover:text-white">
+            <Link
+              to="/obchodni-podminky"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition hover:text-white"
+            >
               Obchodní podmínky
             </Link>
             <a
