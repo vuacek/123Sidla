@@ -10,33 +10,53 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ObchodniPodminkyRouteImport } from './routes/obchodni-podminky'
+import { Route as OchranaOsobnichUdajuRouteImport } from './routes/ochrana-osobnich-udaju'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ObchodniPodminkyRoute = ObchodniPodminkyRouteImport.update({
+  id: '/obchodni-podminky',
+  path: '/obchodni-podminky',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OchranaOsobnichUdajuRoute = OchranaOsobnichUdajuRouteImport.update({
+  id: '/ochrana-osobnich-udaju',
+  path: '/ochrana-osobnich-udaju',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/obchodni-podminky': typeof ObchodniPodminkyRoute
+  '/ochrana-osobnich-udaju': typeof OchranaOsobnichUdajuRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/obchodni-podminky': typeof ObchodniPodminkyRoute
+  '/ochrana-osobnich-udaju': typeof OchranaOsobnichUdajuRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/obchodni-podminky': typeof ObchodniPodminkyRoute
+  '/ochrana-osobnich-udaju': typeof OchranaOsobnichUdajuRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/obchodni-podminky' | '/ochrana-osobnich-udaju'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/obchodni-podminky' | '/ochrana-osobnich-udaju'
+  id: '__root__' | '/' | '/obchodni-podminky' | '/ochrana-osobnich-udaju'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ObchodniPodminkyRoute: typeof ObchodniPodminkyRoute
+  OchranaOsobnichUdajuRoute: typeof OchranaOsobnichUdajuRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +68,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/obchodni-podminky': {
+      id: '/obchodni-podminky'
+      path: '/obchodni-podminky'
+      fullPath: '/obchodni-podminky'
+      preLoaderRoute: typeof ObchodniPodminkyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ochrana-osobnich-udaju': {
+      id: '/ochrana-osobnich-udaju'
+      path: '/ochrana-osobnich-udaju'
+      fullPath: '/ochrana-osobnich-udaju'
+      preLoaderRoute: typeof OchranaOsobnichUdajuRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ObchodniPodminkyRoute: ObchodniPodminkyRoute,
+  OchranaOsobnichUdajuRoute: OchranaOsobnichUdajuRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

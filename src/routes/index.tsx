@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
 import vaclavakHero from "@/assets/vaclavak-hero.jpg";
 import { sendContactEmail } from "@/lib/contact-email.server";
@@ -440,7 +440,7 @@ function Index() {
           <a href="#sluzby" className="font-semibold text-primary transition hover:brightness-110">
             Služby
           </a>
-          .
+          . Všechny ceny jsou uvedené včetně DPH — jsme plátci DPH.
         </p>
       </section>
 
@@ -493,6 +493,7 @@ function Index() {
               <p className="mt-1 text-muted-foreground">
                 IČ: 19172699 · DIČ: CZ19172699
               </p>
+              <p className="mt-1 text-muted-foreground">Jsme plátci DPH.</p>
             </div>
             {chosen && (
               <p className="mt-6 rounded-2xl border border-primary/30 bg-primary/10 px-5 py-4 text-sm">
@@ -594,6 +595,31 @@ function Index() {
                     className="w-full resize-none rounded-xl border border-input bg-white/5 px-4 py-2.5 text-sm outline-none transition focus:border-primary"
                   />
                 </label>
+                <label className="flex items-start gap-3 text-xs text-muted-foreground">
+                  <input
+                    required
+                    type="checkbox"
+                    name="souhlas"
+                    className="mt-0.5 size-4 shrink-0 rounded border-input bg-white/5 accent-primary"
+                  />
+                  <span>
+                    Odesláním formuláře souhlasím se{" "}
+                    <Link
+                      to="/ochrana-osobnich-udaju"
+                      className="font-semibold text-primary underline underline-offset-2 hover:brightness-110"
+                    >
+                      zásadami ochrany osobních údajů
+                    </Link>{" "}
+                    a s{" "}
+                    <Link
+                      to="/obchodni-podminky"
+                      className="font-semibold text-primary underline underline-offset-2 hover:brightness-110"
+                    >
+                      obchodními podmínkami
+                    </Link>
+                    . Žádný spam.
+                  </span>
+                </label>
                 <button
                   type="submit"
                   disabled={sending}
@@ -606,9 +632,6 @@ function Index() {
                     {errorMsg}
                   </p>
                 )}
-                <p className="text-center text-xs text-muted-foreground">
-                  Odesláním souhlasíte se zpracováním údajů. Žádný spam.
-                </p>
               </form>
             )}
           </div>
@@ -623,12 +646,12 @@ function Index() {
           </div>
 
           <div className="flex gap-6">
-            <a href="#" className="transition hover:text-white">
+            <Link to="/ochrana-osobnich-udaju" className="transition hover:text-white">
               Ochrana údajů
-            </a>
-            <a href="#" className="transition hover:text-white">
+            </Link>
+            <Link to="/obchodni-podminky" className="transition hover:text-white">
               Obchodní podmínky
-            </a>
+            </Link>
             <a
               href="mailto:Info@123sidla.cz"
               className="transition hover:text-white"
