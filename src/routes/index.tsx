@@ -9,21 +9,21 @@ export const Route = createFileRoute("/")({
     meta: [
       {
         title:
-          "123Sídla — Virtuální sídlo přímo na Václaváku od 249 Kč/měsíc",
+          "Prestižní virtuální sídlo na Václaváku | Sídlo firmy od 249 Kč",
       },
       {
         name: "description",
         content:
-          "Virtuální sídlo vaší společnosti přímo na Václavském náměstí v Praze 1. Cena se odvíjí od délky smlouvy: 12 měsíců 349 Kč, 24 měsíců 299 Kč, 36 měsíců jen 249 Kč měsíčně. Návštěvy na adrese nepřijímáme.",
+          "Virtuální sídlo firmy přímo na Václavském náměstí v Praze 1. Sídlo pro obchodní rejstřík, příjem a úschovna pošty. Od 249 Kč měsíčně.",
       },
       {
         property: "og:title",
-        content: "123Sídla — Virtuální sídlo přímo na Václaváku",
+        content: "Virtuální sídlo Praha 1 | 123Sídla",
       },
       {
         property: "og:description",
         content:
-          "Oficiální adresa společnosti na Václavském náměstí v Praze 1. Čím delší smlouva, tím nižší měsíční cena — už od 249 Kč. Návštěvy nepřijímáme.",
+          "Sídlo firmy přímo na Václavském náměstí v Praze 1. Příjem a úschovna pošty. Od 249 Kč měsíčně.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -259,7 +259,7 @@ function Index() {
                 <div>
                   <p className="font-display font-semibold">Poštovní schránka</p>
                   <p className="text-sm text-muted-foreground">
-                    Příjem a úschovna pošty, informace e-mailem
+                    Příjem a úschovna pošty, informace a sken dokumentu e-mailem
                   </p>
                 </div>
               </div>
@@ -354,17 +354,6 @@ function Index() {
               už od 249 Kč podle délky smlouvy.
             </p>
           </div>
-        </div>
-
-        <div className="mt-6 rounded-3xl border border-primary/30 bg-primary/10 p-8">
-          <p className="font-display text-sm font-semibold uppercase tracking-[0.18em] text-primary">
-            Co u nás nenajdete
-          </p>
-          <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted-foreground">
-            Na adrese <strong className="font-semibold text-white">nepřijímáme návštěvy</strong> —
-            vaše ani vaše klienty. Sídlo slouží výhradně jako adresa společnosti
-            a k vyřizování pošty; vše řešíme e-mailem a na dálku.
-          </p>
         </div>
       </section>
 
@@ -489,8 +478,7 @@ function Index() {
               </p>
             </div>
             <p className="mt-4 text-sm text-muted-foreground">
-              Návštěvy na adrese nepřijímáme — veškerou komunikaci vedeme
-              e-mailem.
+              Adresa slouží výhradně jako sídlo společnosti. Veškerou komunikaci vyřizujeme e-mailem.
             </p>
             <div className="mt-6 rounded-2xl border border-white/10 bg-white/5 p-5 text-sm">
               <p className="font-display text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
@@ -512,7 +500,7 @@ function Index() {
                   {chosen.months} měsíců · {chosen.price} Kč/měs.
                 </span>
                 <br />
-                Celkem {chosen.total} Kč za celou dobu smlouvy.
+                Celkem {chosen.total} Kč vč. 21% DPH za celou dobu smlouvy.
               </p>
             )}
           </div>
