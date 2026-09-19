@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState, type FormEvent } from "react";
+import { useEffect, useState } from "react";
 import vaclavakHero from "@/assets/vaclavak-hero.jpg";
 
 export const Route = createFileRoute("/")({
@@ -75,39 +75,32 @@ const services = [
 
 
 const CONTACT_EMAIL = "info@123sidla.cz";
+const SENT_PARAM = "poptavka";
+const SENT_VALUE = "odeslana";
 
 function Index() {
   const [sent, setSent] = useState(false);
   const [selected, setSelected] = useState<number | "nevím">(24);
-  const [sending, setSending] = useState(false);
-  const [sendError, setSendError] = useState(false);
+  const [nextUrl, setNextUrl] = useState("");
 
-  async function handleContactSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setSendError(false);
-    setSending(true);
-
-    const formData = new FormData(e.currentTarget);
-
-    try {
-      const response = await fetch(
-        `https://formsubmit.co/ajax/${CONTACT_EMAIL}`,
-        {
-          method: "POST",
-          headers: { Accept: "application/json" },
-          body: formData,
-        },
-      );
-
-      if (!response.ok) throw new Error("Odeslání selhalo");
-
+  // FormSubmit.co posts the form as a normal (non-JS) submission and then
+  // redirects the browser back to `_next`. We detect that return trip here
+  // to show the "Děkujeme" state, and compute `_next` from the real origin
+  // once we're in the browser (it must be an absolute URL).
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    if (url.searchParams.get(SENT_PARAM) === SENT_VALUE) {
       setSent(true);
-    } catch (err) {
-      setSendError(true);
-    } finally {
-      setSending(false);
+      url.searchParams.delete(SENT_PARAM);
+      window.history.replaceState({}, "", url.toString());
     }
-  }
+
+    const thankYouUrl = new URL(window.location.href);
+    thankYouUrl.search = "";
+    thankYouUrl.hash = "kontakt";
+    thankYouUrl.searchParams.set(SENT_PARAM, SENT_VALUE);
+    setNextUrl(thankYouUrl.toString());
+  }, []);
 
   const chosen = terms.find((t) => t.months === selected);
 
@@ -526,7 +519,11 @@ function Index() {
                 </p>
               </div>
             ) : (
-              <form className="space-y-4" onSubmit={handleContactSubmit}>
+              <form
+                className="space-y-4"
+                action={`https://formsubmit.co/${CONTACT_EMAIL}`}
+                method="POST"
+              >
                 <input
                   type="hidden"
                   name="_subject"
@@ -534,6 +531,9 @@ function Index() {
                 />
                 <input type="hidden" name="_captcha" value="false" />
                 <input type="hidden" name="_template" value="table" />
+                {nextUrl && (
+                  <input type="hidden" name="_next" value={nextUrl} />
+                )}
                 <div className="grid gap-4 sm:grid-cols-2">
                   <label className="block text-sm">
                     <span className="mb-1.5 block text-muted-foreground">
@@ -614,17 +614,10 @@ function Index() {
                 </label>
                 <button
                   type="submit"
-                  disabled={sending}
-                  className="w-full rounded-full bg-primary py-3 font-display text-sm font-semibold text-primary-foreground transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60"
+                  className="w-full rounded-full bg-primary py-3 font-display text-sm font-semibold text-primary-foreground transition hover:brightness-110"
                 >
-                  {sending ? "Odesílám…" : "Odeslat poptávku"}
+                  Odeslat poptávku
                 </button>
-                {sendError && (
-                  <p className="text-center text-xs text-destructive">
-                    Odeslání se nezdařilo. Zkuste to prosím znovu, nebo nám
-                    napište přímo na {CONTACT_EMAIL}.
-                  </p>
-                )}
                 <p className="text-center text-xs text-muted-foreground">
                   Odesláním souhlasíte se zpracováním údajů. Žádný spam.
                 </p>
