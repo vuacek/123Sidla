@@ -2,6 +2,12 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
 import vaclavakHero from "@/assets/vaclavak-hero.jpg";
 import { sendContactEmail } from "@/lib/contact-email.server";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -55,6 +61,61 @@ const terms = [
     savings: "3 600",
     badge: "Nejvýhodnější",
     note: "Tři roky za nejnižší cenu",
+  },
+];
+
+const faqs = [
+  {
+    q: "Co je virtuální sídlo?",
+    a: "Virtuální sídlo je služba, která vám umožní mít oficiální sídlo společnosti nebo místo podnikání na reprezentativní adrese, aniž byste zde potřebovali vlastní kancelář. Adresu můžete využít pro zápis do obchodního rejstříku nebo příslušné evidence.",
+  },
+  {
+    q: "Kde se sídlo 123Sídla nachází?",
+    a: "Naše sídlo se nachází přímo na Václavském náměstí 782/22 v Praze 1. Jedná se o adresu přímo na Václavském náměstí, nikoli v okolních ulicích.",
+  },
+  {
+    q: "Je možné tuto adresu použít jako sídlo firmy?",
+    a: "Ano. Adresu lze využít jako sídlo společnosti nebo místo podnikání v souladu s platnými právními předpisy a podmínkami služby.",
+  },
+  {
+    q: "Kolik virtuální sídlo stojí?",
+    a: "Cena závisí na délce smlouvy. Při smlouvě na 12 měsíců je cena 349 Kč měsíčně, na 24 měsíců 299 Kč měsíčně a na 36 měsíců 249 Kč měsíčně. Ceny jsou uvedeny včetně DPH a hradí se předem za celé sjednané období.",
+  },
+  {
+    q: "Přijímáte poštu?",
+    a: "Ano. Poštu na adrese přijímáme. U vybrané pošty můžeme zajistit také elektronické upozornění nebo skenování.",
+  },
+  {
+    q: "Co když přijde doporučený dopis nebo balík?",
+    a: "U doporučených zásilek, zásilek do vlastních rukou, balíků a dalších zásilek, které nelze běžně zpracovat, vás informujeme e-mailem a sdělíme vám možnosti jejich převzetí nebo dalšího vyřízení.",
+  },
+  {
+    q: "Můžete mi poštu poslat e-mailem?",
+    a: "U zásilek, které je možné bezpečně a technicky zpracovat, můžeme pořídit sken a zaslat jej e-mailem. Rozsah skenování závisí na konkrétní zásilce.",
+  },
+  {
+    q: "Je možné na adrese přijímat návštěvy?",
+    a: "Ne. Adresa slouží výhradně jako sídlo společnosti. Veškerou komunikaci vyřizujeme e-mailem. Na adrese neposkytujeme kancelář ani prostor pro osobní schůzky.",
+  },
+  {
+    q: "Je cena virtuálního sídla uvedena včetně DPH?",
+    a: "Ano. Všechny ceny uvedené na našem webu jsou včetně DPH.",
+  },
+  {
+    q: "Jak dlouho trvá zřízení virtuálního sídla?",
+    a: "Po vyplnění objednávky je nejprve potřeba provést identifikaci zákazníka a potřebné AML/KYC kontroly. Po jejich dokončení a úhradě ceny připravíme smluvní dokumentaci a souhlas s umístěním sídla.",
+  },
+  {
+    q: "Jaké dokumenty potřebuji k získání sídla?",
+    a: "Potřebujeme údaje a dokumenty nezbytné k identifikaci zákazníka a splnění povinností podle právních předpisů proti praní špinavých peněz (AML). Rozsah se může lišit podle toho, zda jde o společnost, podnikající fyzickou osobu nebo spotřebitele.",
+  },
+  {
+    q: "Obnovuje se smlouva automaticky?",
+    a: "Ne. Smlouva se po uplynutí sjednané doby automaticky neprodlužuje. Pokud chcete službu využívat dál, uzavřeme novou smlouvu.",
+  },
+  {
+    q: "Mohu smlouvu ukončit před koncem sjednané doby?",
+    a: "O předčasné ukončení můžete požádat kdykoli. Uhrazená cena se při předčasném ukončení zákazníkem standardně nevrací poměrně za nevyužitou část období, pokud právní předpisy nestanoví jinak.",
   },
 ];
 
@@ -149,6 +210,9 @@ function Index() {
           </a>
           <a href="#cenik" className="transition hover:text-white">
             Ceník
+          </a>
+          <a href="#faq" className="transition hover:text-white">
+            FAQ
           </a>
           <a href="#kontakt" className="transition hover:text-white">
             Kontakt
@@ -442,6 +506,36 @@ function Index() {
           </a>
           . Všechny ceny jsou uvedené včetně DPH — jsme plátci DPH.
         </p>
+      </section>
+
+      {/* faq */}
+      <section id="faq" className="relative z-10 mx-auto max-w-6xl px-6 pb-24">
+        <div className="mb-10">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+            FAQ
+          </p>
+          <h2 className="mt-2 font-display text-4xl font-bold tracking-tight">
+            Často kladené otázky o virtuálním sídle
+          </h2>
+        </div>
+        <div className="glass rounded-3xl border border-white/15 px-8">
+          <Accordion type="single" collapsible className="w-full">
+            {faqs.map((item, i) => (
+              <AccordionItem
+                key={item.q}
+                value={`faq-${i}`}
+                className="border-white/10 last:border-b-0"
+              >
+                <AccordionTrigger className="font-display text-base font-semibold hover:no-underline [&>svg]:text-primary">
+                  {item.q}
+                </AccordionTrigger>
+                <AccordionContent className="leading-relaxed text-muted-foreground">
+                  {item.a}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
       </section>
 
       {/* contact */}
